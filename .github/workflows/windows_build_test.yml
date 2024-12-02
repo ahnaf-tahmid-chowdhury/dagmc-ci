@@ -17,6 +17,11 @@ jobs:
   BuildTest:
     runs-on: windows-2019
     steps:
+      - uses: actions/checkout@v4
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+          detached: true
 
       - uses: conda-incubator/setup-miniconda@v3
         with:
@@ -56,7 +61,7 @@ jobs:
                 -DCMAKE_INSTALL_PREFIX=../install_dir/ \
                 -DEIGEN3_DIR="${CONDA_LOC}/include/eigen3" \
                 -DHDF5_ROOT="${CONDA_LOC}" \
-                -DHDF5_hdf5_LIBRARY_RELEASE="${CONDA_LOC}/lib/libhdf5_hl.lib;${CONDA_LOC}/lib/libhdf5.lib;${CONDA_LOC}/lib/zlib.lib;${CONDA_LOC}/lib/libhdf5_cpp.lib" \
+                -DHDF5_LIBRARIES="${CONDA_LOC}/lib/libhdf5_hl.lib;${CONDA_LOC}/lib/libhdf5.lib;${CONDA_LOC}/lib/zlib.lib;${CONDA_LOC}/lib/libhdf5_cpp.lib" \
                 -DCMAKE_EXE_LINKER_FLAGS="/std:c++latest -DH5_BUILT_AS_DYNAMIC_LIB" \
                 -DCMAKE_MODULE_LINKER_FLAGS="/std:c++latest" \
                 -DCMAKE_SHARED_LINKER_FLAGS="/std:c++latest" \
