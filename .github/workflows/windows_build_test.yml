@@ -33,7 +33,7 @@ jobs:
         shell:  bash -l {0}
         run: |
           conda install curl eigen
-          conda install -c conda-forge hdf5
+          conda install -c conda-forge hdf5=1.10.6
 
       - name: Environment Variables
         shell: bash -l {0}
@@ -47,7 +47,7 @@ jobs:
         shell: bash -l {0}
         run: |
           cd ${HOME_PATH}
-          git clone --depth 1 https://bitbucket.org/fathomteam/moab
+          git clone --depth 1 https://bitbucket.org/fathomteam/moab -b 5.5.1
           mkdir moab_build
           cd moab_build
           cmake ../moab \
@@ -60,7 +60,7 @@ jobs:
                 -G"Visual Studio 16 2019"  \
                 -DCMAKE_INSTALL_PREFIX=../install_dir/ \
                 -DEIGEN3_DIR="${CONDA_LOC}/include/eigen3" \
-                -DHDF5_DIR="${CONDA_LOC}" \
+                -DHDF5_ROOT="${CONDA_LOC}" \
                 -DCMAKE_BUILD_TYPE=Release
           cmake --build . --config Release
           cmake --install . --config Release
