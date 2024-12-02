@@ -61,7 +61,7 @@ jobs:
                 -DCMAKE_INSTALL_PREFIX=../install_dir/ \
                 -DEIGEN3_DIR="${CONDA_LOC}/include/eigen3" \
                 -DHDF5_ROOT="${CONDA_LOC}" \
-                -DHDF5_LIBRARIES="${CONDA_LOC}/lib/hdf5.lib;${CONDA_LOC}/lib/hdf5_hl.lib;${CONDA_LOC}/lib/hdf5_cpp.lib;${CONDA_LOC}/lib/hdf5_hl_cpp.lib;${CONDA_LOC}/lib/hdf5_tools.lib;${CONDA_LOC}/lib/zlib.lib" \
+                -DHDF5_LIBRARIES="${CONDA_LOC}/lib/libhdf5.lib;${CONDA_LOC}/lib/libhdf5_hl.lib;${CONDA_LOC}/lib/libhdf5_cpp.lib;${CONDA_LOC}/lib/libhdf5_hl_cpp.lib;${CONDA_LOC}/lib/libhdf5_tools.lib;${CONDA_LOC}/lib/zlib.lib" \
                 -DCMAKE_STATIC_LINKER_FLAGS="" \
                 -DCMAKE_BUILD_TYPE=Release
           cmake --build . --config Release
