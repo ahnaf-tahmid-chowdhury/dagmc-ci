@@ -17,12 +17,6 @@ jobs:
   BuildTest:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          detached: true
-
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-activate-base: true
@@ -33,7 +27,7 @@ jobs:
         shell:  bash -l {0}
         run: |
           conda install curl eigen
-          conda install -c conda-forge hdf5=1.10.6
+          conda install -c conda-forge hdf5=1.12.2
 
       - name: Environment Variables
         shell: bash -l {0}
