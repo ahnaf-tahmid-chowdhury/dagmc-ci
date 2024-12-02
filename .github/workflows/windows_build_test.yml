@@ -39,7 +39,7 @@ jobs:
         shell: bash -l {0}
         run: |
           echo "HOME_PATH=$GITHUB_WORKSPACE/.." >> $GITHUB_ENV
-          echo "CONDA_LOC=C:/Miniconda/Library" >> $GITHUB_ENV
+          echo "CONDA_LOC=/c/Miniconda/Library" >> $GITHUB_ENV
           cd ${HOME_PATH}
           mkdir install_dir
 
@@ -61,6 +61,7 @@ jobs:
                 -DCMAKE_INSTALL_PREFIX=../install_dir/ \
                 -DEIGEN3_DIR="${CONDA_LOC}/include/eigen3" \
                 -DHDF5_ROOT="${CONDA_LOC}" \
+                -DHDF5_LIBRARIES="${CONDA_LOC}/lib/libhdf5.lib;${CONDA_LOC}/lib/libhdf5_hl.lib;${CONDA_LOC}/lib/zlib.lib;${CONDA_LOC}/lib/libhdf5_cpp.lib" \
                 -DCMAKE_STATIC_LINKER_FLAGS="" \
                 -DCMAKE_BUILD_TYPE=Release
           cmake --build . --config Release
