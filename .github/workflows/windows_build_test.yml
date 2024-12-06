@@ -34,13 +34,10 @@ jobs:
           install: >-
             base-devel
             git
-            gcc
-            make
-            development
           pacboy: >-
             toolchain:p
             cmake:p
-            ninja:p
+            eigen3:p
 
       - name: Set git to use LF
         run: |
