@@ -84,7 +84,7 @@ jobs:
           cmake .. \
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/moab \
-            -DBUILD_SHARED_LIBS=ON \
+            -DBUILD_SHARED_LIBS=OFF \
             -DENABLE_BLASLAPACK=OFF \
             -DENABLE_FORTRAN=OFF \
             -DENABLE_IMESH=OFF \
