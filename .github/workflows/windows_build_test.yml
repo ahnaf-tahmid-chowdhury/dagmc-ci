@@ -6,57 +6,77 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - '.github/workflows/mac_build_test.yml'
-
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   BuildTest:
-    runs-on: windows-2019
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - { icon: '⬛', sys: mingw32 }
+          - { icon: '🟦', sys: mingw64 }
+          - { icon: '🟨', sys: ucrt64  }
+          - { icon: '🟧', sys: clang64 }
+    name: ${{ matrix.icon }} MSYS2-${{ matrix.sys }}
+    defaults:
+      run:
+        shell: msys2 {0}
+
     steps:
-      - uses: conda-incubator/setup-miniconda@v3
+      - name: '${{ matrix.icon }} Setup MSYS2'
+        uses: msys2/setup-msys2@v2
         with:
-          auto-activate-base: true
-          activate-environment: ""
+          msystem: ${{matrix.sys}}
+          update: true
+          install: >-
+            base-devel
+            git
+            gcc
+            make
+            development
+          pacboy: >-
+            toolchain:p
+            cmake:p
 
-      # yaml-cpp package has conflicting gtest headers and is not needed for this project
-      - name: Conda dependencies
-        shell:  bash -l {0}
+      - name: Set git to use LF
         run: |
-          conda install curl eigen
-          conda install -c conda-forge hdf5=1.12.2
+          git config --global core.autocrlf input
 
-      - name: Environment Variables
-        shell: bash -l {0}
+      - name: Build and Install HDF5
         run: |
-          echo "HOME_PATH=$GITHUB_WORKSPACE/.." >> $GITHUB_ENV
-          echo "CONDA_LOC=C:/Miniconda/Library" >> $GITHUB_ENV
-          cd ${HOME_PATH}
-          mkdir install_dir
-
-      - name: Build MOAB
-        shell: bash -l {0}
-        run: |
-          cd ${HOME_PATH}
-          git clone --depth 1 https://bitbucket.org/fathomteam/moab -b 5.5.1
-          mkdir moab_build
-          cd moab_build
-          cmake ../moab \
-                -DENABLE_BLASLAPACK=OFF \
-                -DENABLE_FORTRAN=OFF \
-                -DENABLE_IMESH=OFF \
-                -DENABLE_TESTING=OFF \
-                -DENABLE_HDF5=ON \
-                -DBUILD_SHARED_LIBS=ON \
-                -G"Visual Studio 16 2019"  \
-                -DCMAKE_INSTALL_PREFIX=../install_dir/ \
-                -DEIGEN3_DIR="${CONDA_LOC}/include/eigen3" \
-                -DHDF5_ROOT="${CONDA_LOC}" \
-                -DHDF5_LIBRARIES="${CONDA_LOC}/lib/libhdf5.lib;${CONDA_LOC}/lib/libhdf5_hl.lib;${CONDA_LOC}/lib/libhdf5_cpp.lib;${CONDA_LOC}/lib/zlib.lib" \
-                -DCMAKE_BUILD_TYPE=Release
+          cd $GITHUB_WORKSPACE
+          git clone --depth 1 https://github.com/HDFGroup/hdf5.git -b hdf5_1_14_5
+          cd hdf5
+          mkdir build
+          cd build
+          cmake .. \
+            -G "Ninja" \
+            -DCMAKE_INSTALL_PREFIX=/c/HDF5 \
+            -DBUILD_SHARED_LIBS=ON \
+            -DENABLE_FORTRAN=OFF \
+            -DBUILD_TESTING=OFF
           cmake --build . --config Release
           cmake --install . --config Release
 
+      - name: Build and Install MOAB
+        run: |
+          cd $GITHUB_WORKSPACE
+          git clone --depth 1 https://bitbucket.org/fathomteam/moab -b 5.5.1
+          cd moab
+          mkdir build
+          cd build
+          cmake .. \
+            -G "Ninja" \
+            -DCMAKE_INSTALL_PREFIX=/c/moab \
+            -DBUILD_SHARED_LIBS=ON \
+            -DENABLE_BLASLAPACK=OFF \
+            -DENABLE_FORTRAN=OFF \
+            -DENABLE_IMESH=OFF \
+            -DENABLE_TESTING=OFF \
+            -DENABLE_HDF5=ON \
+            -DHDF5_ROOT=/c/HDF5
+          cmake --build . --config Release
+          cmake --install . --config Release
