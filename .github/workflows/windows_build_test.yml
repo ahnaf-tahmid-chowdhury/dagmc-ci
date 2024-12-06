@@ -43,6 +43,7 @@ jobs:
           git config --global core.autocrlf input
 
       - name: Build and Install HDF5
+        if: ${{ matrix.sys == 'pass' }}
         run: |
           cd $GITHUB_WORKSPACE
           git clone --depth 1 https://github.com/HDFGroup/hdf5.git -b develop
@@ -77,19 +78,19 @@ jobs:
       - name: Build and Install MOAB
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --depth 1 https://bitbucket.org/fathomteam/moab -b 5.5.1
+          git clone --depth 1 https://bitbucket.org/ahnaf-tahmid-chowdhury/moab -b mingw
           cd moab
           mkdir build
           cd build
           cmake .. \
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/moab \
-            -DBUILD_SHARED_LIBS=OFF \
+            -DBUILD_SHARED_LIBS=ON \
             -DENABLE_BLASLAPACK=OFF \
             -DENABLE_FORTRAN=OFF \
             -DENABLE_IMESH=OFF \
             -DENABLE_TESTING=OFF \
-            -DENABLE_HDF5=ON \
+            -DENABLE_HDF5=OFF \
             -DHDF5_ROOT=/c/HDF5 \
             -DEIGEN3_DIR=$EIGEN3_ROOT \
             -DCMAKE_BUILD_TYPE=Release
