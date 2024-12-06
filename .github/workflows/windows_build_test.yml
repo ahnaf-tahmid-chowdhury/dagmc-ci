@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - { icon: '⬛', sys: msys }
+          - { icon: '⬛', sys: mingw32 }
           - { icon: '🟦', sys: mingw64 }
           - { icon: '🟨', sys: ucrt64  }
           - { icon: '🟧', sys: clang64 }
@@ -37,7 +37,6 @@ jobs:
           pacboy: >-
             toolchain:p
             cmake:p
-            eigen3:p
 
       - name: Set git to use LF
         run: |
@@ -69,6 +68,12 @@ jobs:
           cmake --build . --config Release
           cmake --install . --config Release
 
+      - name: Setup Eigen3
+        run: |
+          cd $GITHUB_WORKSPACE
+          git clone --depth 1 https://gitlab.com/libeigen/eigen.git -b 3.4.0
+          echo "EIGEN3_ROOT=$GITHUB_WORKSPACE/eigen" >> $GITHUB_ENV
+
       - name: Build and Install MOAB
         run: |
           cd $GITHUB_WORKSPACE
@@ -85,6 +90,8 @@ jobs:
             -DENABLE_IMESH=OFF \
             -DENABLE_TESTING=OFF \
             -DENABLE_HDF5=ON \
-            -DHDF5_ROOT=/c/HDF5
+            -DHDF5_ROOT=/c/HDF5 \
+            -DEIGEN3_DIR=$EIGEN3_ROOT \
+            -DCMAKE_BUILD_TYPE=Release
           cmake --build . --config Release
           cmake --install . --config Release
