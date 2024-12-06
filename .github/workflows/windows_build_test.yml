@@ -86,7 +86,6 @@ jobs:
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/moab \
             -DBUILD_SHARED_LIBS=ON \
-            -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=ON \
             -DENABLE_BLASLAPACK=OFF \
             -DENABLE_FORTRAN=OFF \
             -DENABLE_IMESH=OFF \
