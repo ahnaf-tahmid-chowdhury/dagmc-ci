@@ -25,9 +25,11 @@ jobs:
           update: true
           install: >-
             base-devel
+            zlib-devel
             git
             gcc
             cmake
+            ninja
 
       - name: Set git to use LF
         run: |
