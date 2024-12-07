@@ -23,6 +23,7 @@ jobs:
         with:
           msystem: msys
           update: true
+          release: false
           path-type: strict
           install: >-
             base-devel
@@ -34,11 +35,6 @@ jobs:
             cmake
             ninja
 
-      - name: Which cmake
-        run: |
-          cmake --version
-          which cmake
-          
       - name: Set git to use LF
         run: |
           git config --global core.autocrlf input
