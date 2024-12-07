@@ -75,7 +75,7 @@ jobs:
       - name: Build and Install MOAB
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --depth 1 https://bitbucket.org/fathomteam/moab.git 
+          git clone --depth 1 https://bitbucket.org/ahnaf-tahmid-chowdhury/moab.git -b mingw
           cd moab
           mkdir build
           cd build
