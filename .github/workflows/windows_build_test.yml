@@ -27,6 +27,7 @@ jobs:
             base-devel
             zlib-devel
             libcurl-devel
+            libzstd-devel
             git
             gcc
             cmake
