@@ -26,6 +26,7 @@ jobs:
           install: >-
             base-devel
             zlib-devel
+            curl
             git
             gcc
             cmake
