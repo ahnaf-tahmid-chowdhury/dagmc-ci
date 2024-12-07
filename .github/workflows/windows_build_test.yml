@@ -37,16 +37,20 @@ jobs:
         run: |
           git config --global core.autocrlf input
 
+      - name: Check CMake version
+        run: |
+          cmake --version
+
       - name: Build and Install HDF5
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --depth 1 https://github.com/HDFGroup/hdf5.git -b hdf5_1_14_5
+          git clone --depth 1 https://github.com/HDFGroup/hdf5.git
           cd hdf5
           mkdir build
           cd build
           cmake .. \
             -G "Ninja" \
-            -DCMAKE_INSTALL_PREFIX=/usr/local \
+            -DCMAKE_INSTALL_PREFIX=/usr \
             -DBUILD_SHARED_LIBS=ON \
             -DHDF5_ENABLE_PARALLEL=OFF \
             -DHDF5_BUILD_CPP_LIB=OFF \
@@ -77,7 +81,6 @@ jobs:
           cd build
           cmake .. \
             -G "Ninja" \
-            -DCMAKE_INSTALL_PREFIX=/usr/local \
             -DBUILD_SHARED_LIBS=ON \
             -DENABLE_BLASLAPACK=OFF \
             -DENABLE_FORTRAN=OFF \
