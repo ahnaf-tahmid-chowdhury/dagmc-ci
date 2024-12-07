@@ -31,7 +31,8 @@ jobs:
             git
             gcc
             cmake
-            make
+            ninja
+            development
 
       - name: Set git to use LF
         run: |
@@ -45,7 +46,7 @@ jobs:
           mkdir build
           cd build
           cmake .. \
-            -G "Unix Makefiles" \
+            -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/hdf5 \
             -DBUILD_SHARED_LIBS=ON \
             -DHDF5_ENABLE_PARALLEL=OFF \
@@ -64,7 +65,7 @@ jobs:
           mkdir build
           cd build
           cmake .. \
-            -G "Unix Makefiles"
+            -G "Ninja"
           cmake --build . --config Release
           cmake --install . --config Release
 
@@ -76,7 +77,7 @@ jobs:
           mkdir build
           cd build
           cmake .. \
-            -G "Unix Makefiles" \
+            -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/moab \
             -DBUILD_SHARED_LIBS=ON \
             -DENABLE_BLASLAPACK=OFF \
