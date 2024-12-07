@@ -104,6 +104,7 @@ jobs:
           cmake .. \
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/dagmc \
+            -DCMAKE_FIND_PACKAGE_PREFER_CONFIG=ON \
             -DBUILD_SHARED_LIBS=ON \
             -DHDF5_DIR=/c/HDF5 \
             -DMOAB_DIR=/c/moab
