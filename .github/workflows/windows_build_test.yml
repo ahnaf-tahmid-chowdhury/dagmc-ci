@@ -34,6 +34,11 @@ jobs:
             cmake
             ninja
 
+      - name: Which cmake
+        run: |
+          cmake --version
+          which cmake
+          
       - name: Set git to use LF
         run: |
           git config --global core.autocrlf input
