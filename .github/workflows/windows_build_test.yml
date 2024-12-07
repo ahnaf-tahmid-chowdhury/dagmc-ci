@@ -96,7 +96,7 @@ jobs:
       - name: Build and Install DAGMC
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --depth 1 https://github.com/svalinn/dagmc.git
+          git clone --depth 1 https://github.com/ahnaf-tahmid-chowdhury/DAGMC.git -b fix-windows
           cd dagmc
           mkdir build
           cd build
@@ -104,7 +104,6 @@ jobs:
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/dagmc \
             -DCMAKE_PREFIX_PATH=/c/moab;/c/HDF5 \
-            -DBUILD_SHARED_LIBS=ON \
-            -DMOAB_DIR=/c/moab
+            -DBUILD_SHARED_LIBS=ON
           cmake --build . --config Release
           cmake --install . --config Release
