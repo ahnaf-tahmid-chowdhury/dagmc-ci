@@ -48,16 +48,11 @@ jobs:
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/HDF5 \
             -DBUILD_SHARED_LIBS=ON \
-            -DCMAKE_TOOLCHAIN_FILE="" \
-            -DHDF5_GENERATE_HEADERS=OFF \
-            -DHDF5_ENABLE_ALL_WARNINGS=ON \
             -DHDF5_ENABLE_PARALLEL=OFF \
             -DHDF5_BUILD_CPP_LIB=OFF \
             -DHDF5_BUILD_FORTRAN=OFF \
             -DHDF5_BUILD_JAVA=OFF \
-            -DHDF5_BUILD_DOC=OFF \
-            -DLIBAEC_USE_LOCALCONTENT=OFF \
-            -DZLIB_USE_LOCALCONTENT=OFF 
+            -DHDF5_BUILD_DOC=OFF
           cmake --build . --config Release
           cmake --install . --config Release
 
