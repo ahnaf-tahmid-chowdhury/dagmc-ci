@@ -32,7 +32,6 @@ jobs:
             gcc
             cmake
             ninja
-            development
 
       - name: Set git to use LF
         run: |
@@ -47,7 +46,6 @@ jobs:
           cd build
           cmake .. \
             -G "Ninja" \
-            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/hdf5 \
             -DBUILD_SHARED_LIBS=ON \
             -DHDF5_ENABLE_PARALLEL=OFF \
             -DHDF5_BUILD_CPP_LIB=OFF \
@@ -78,14 +76,12 @@ jobs:
           cd build
           cmake .. \
             -G "Ninja" \
-            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/moab \
             -DBUILD_SHARED_LIBS=ON \
             -DENABLE_BLASLAPACK=OFF \
             -DENABLE_FORTRAN=OFF \
             -DENABLE_IMESH=OFF \
             -DENABLE_TESTING=OFF \
             -DENABLE_HDF5=ON \
-            -DHDF5_ROOT=$GITHUB_WORKSPACE/hdf5
           cmake --build . --config Release
           cmake --install . --config Release
 
@@ -100,8 +96,6 @@ jobs:
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/dagmc \
             -DBUILD_SHARED_LIBS=ON \
-            -DHDF5_ROOT=$GITHUB_WORKSPACE/hdf5 \
-            -DMOAB_ROOT=$GITHUB_WORKSPACE/moab
           cmake --build . --config Release
           cmake --install . --config Release
 
