@@ -107,3 +107,16 @@ jobs:
             -DBUILD_SHARED_LIBS=ON
           cmake --build . --config Release
           cmake --install . --config Release
+
+      - name: Test DAGMC
+        run: |
+          export PATH=$PATH:/c/dagmc/bin
+          cd /c/dagmc/tests
+          dagmc_pointinvol_test.exe
+          dagmc_rayfire_test.exe
+          dagmc_simple_test.exe
+          dagmc_unit_tests.exe
+          make_watertight_cone_tests.exe
+          make_watertight_cylinder_tests.exe
+          make_watertight_no_curve_sphere_tests.exe
+          make_watertight_sphere_n_box_test.exe
