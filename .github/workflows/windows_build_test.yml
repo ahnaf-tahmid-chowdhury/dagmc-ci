@@ -23,6 +23,7 @@ jobs:
         with:
           msystem: msys
           update: true
+          cache: false
           install: >-
             base-devel
             zlib-devel
@@ -36,10 +37,6 @@ jobs:
       - name: Set git to use LF
         run: |
           git config --global core.autocrlf input
-
-      - name: Check CMake version
-        run: |
-          cmake --version
 
       - name: Build and Install HDF5
         run: |
