@@ -23,7 +23,7 @@ jobs:
         with:
           msystem: msys
           update: true
-          cache: false
+          path-type: strict
           install: >-
             base-devel
             zlib-devel
