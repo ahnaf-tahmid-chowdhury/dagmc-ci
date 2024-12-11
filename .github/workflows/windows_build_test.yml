@@ -13,27 +13,40 @@ env:
 jobs:
   BuildTest:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - { icon: '⬛', sys: MINGW32, compiler: 'gcc' }
+          - { icon: '⬛', sys: MINGW32, compiler: 'msmpi' }
+          - { icon: '🟦', sys: MINGW64, compiler: 'gcc' }
+          - { icon: '🟦', sys: MINGW64, compiler: 'msmpi' }
+          - { icon: '🟨', sys: UCART64, compiler: 'gcc' }
+          - { icon: '🟨', sys: UCART64, compiler: 'msmpi' }
+          - { icon: '🟧', sys: CLANG64, compiler: 'gcc' }
+          - { icon: '🟧', sys: CLANG64, compiler: 'msmpi' }
+    name: ${{ matrix.icon }} ${{ matrix.sys }} - ${{ matrix.compiler }}
     defaults:
       run:
         shell: msys2 {0}
 
     steps:
-      - name: Setup MSYS2
+      - name: Setup ${{ matrix.sys }}
         uses: msys2/setup-msys2@v2
         with:
-          msystem: msys
+          msystem: ${{ matrix.sys }}
           update: true
           release: false
           path-type: strict
           install: >-
+            git
             base-devel
             zlib-devel
             libcurl-devel
             libzstd-devel
-            git
-            gcc
-            cmake
-            ninja
+          pacboy: >-
+            ${matrix.compiler}:p
+            cmake:p
+            eigen3:p
 
       - name: Set git to use LF
         run: |
@@ -50,23 +63,11 @@ jobs:
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/usr \
             -DBUILD_SHARED_LIBS=ON \
-            -DHDF5_ENABLE_PARALLEL=OFF \
+            -DHDF5_ENABLE_PARALLEL=$([ "${{ matrix.compiler }}" == "msmpi" ] && echo "ON" || echo "OFF") \
             -DHDF5_BUILD_CPP_LIB=OFF \
             -DHDF5_BUILD_FORTRAN=OFF \
             -DHDF5_BUILD_JAVA=OFF \
             -DHDF5_BUILD_DOC=OFF
-          cmake --build . --config Release
-          cmake --install . --config Release
-
-      - name: Build and Install Eigen3
-        run: |
-          cd $GITHUB_WORKSPACE
-          git clone --depth 1 https://gitlab.com/libeigen/eigen.git -b 3.4.0
-          cd eigen
-          mkdir build
-          cd build
-          cmake .. \
-            -G "Ninja"
           cmake --build . --config Release
           cmake --install . --config Release
 
@@ -79,12 +80,15 @@ jobs:
           cd build
           cmake .. \
             -G "Ninja" \
+            -DCMAKE_INSTALL_PREFIX=/usr \
             -DBUILD_SHARED_LIBS=ON \
+            -DENABLE_MPI=$([ "${{ matrix.compiler }}" == "msmpi" ] && echo "ON" || echo "OFF") \
+            -DENABLE_EIGEN3=ON \
+            -DENABLE_HDF5=ON \
             -DENABLE_BLASLAPACK=OFF \
             -DENABLE_FORTRAN=OFF \
             -DENABLE_IMESH=OFF \
-            -DENABLE_TESTING=OFF \
-            -DENABLE_HDF5=ON
+            -DENABLE_TESTING=OFF
           cmake --build . --config Release
           cmake --install . --config Release
 
