@@ -17,13 +17,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { icon: '🟦', sys: MINGW64, compiler: 'gcc' }
-          - { icon: '🟦', sys: MINGW64, compiler: 'msmpi' }
-          - { icon: '🟨', sys: UCRT64, compiler: 'gcc' }
-          - { icon: '🟨', sys: UCRT64, compiler: 'msmpi' }
-          - { icon: '🟧', sys: CLANG64, compiler: 'gcc' }
-          - { icon: '🟧', sys: CLANG64, compiler: 'msmpi' }
-    name: ${{ matrix.icon }} ${{ matrix.sys }} - ${{ matrix.compiler }}
+          - { icon: '🟦', sys: mingw64, compiler: 'gcc', mpi: false }
+          - { icon: '🟦', sys: mingw64, compiler: 'gcc', mpi: true }
+          - { icon: '🟨', sys: ucrt64, compiler: 'gcc', mpi: false }
+          - { icon: '🟨', sys: ucrt64, compiler: 'gcc', mpi: true }
+          - { icon: '🟧', sys: clang64, compiler: 'clang', mpi: false }
+          - { icon: '🟧', sys: clang64, compiler: 'clang', mpi: true }
+    name: ${{ matrix.icon }} ${{ matrix.sys }} - ${{ matrix.compiler }} ${{ matrix.mpi && '- msmpi' || '' }}
     defaults:
       run:
         shell: msys2 {0}
@@ -43,9 +43,10 @@ jobs:
             libcurl-devel
             libzstd-devel
           pacboy: >-
-            ${{ matrix.compiler }}:p
             cmake:p
             eigen3:p
+            ${{ matrix.compiler }}:p
+            ${{ matrix.mpi && 'msmpi:p' || '' }}
 
       - name: Set git to use LF
         run: |
@@ -54,7 +55,7 @@ jobs:
       - name: Build and Install HDF5
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --depth 1 https://github.com/HDFGroup/hdf5.git -b hdf5_1_14_5
+          git clone --depth 1 https://github.com/HDFGroup/hdf5.git -b develop
           cd hdf5
           mkdir build
           cd build
@@ -62,7 +63,7 @@ jobs:
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/usr \
             -DBUILD_SHARED_LIBS=ON \
-            -DHDF5_ENABLE_PARALLEL=$([ "${{ matrix.compiler }}" == "msmpi" ] && echo "ON" || echo "OFF") \
+            -DHDF5_ENABLE_PARALLEL=$([ "${{ matrix.mpi }}" == "true" ] && echo "ON" || echo "OFF") \
             -DHDF5_BUILD_CPP_LIB=OFF \
             -DHDF5_BUILD_FORTRAN=OFF \
             -DHDF5_BUILD_JAVA=OFF \
@@ -81,7 +82,7 @@ jobs:
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/usr \
             -DBUILD_SHARED_LIBS=ON \
-            -DENABLE_MPI=$([ "${{ matrix.compiler }}" == "msmpi" ] && echo "ON" || echo "OFF") \
+            -DENABLE_MPI=$([ "${{ matrix.mpi }}" == "true" ] && echo "ON" || echo "OFF") \
             -DENABLE_EIGEN3=ON \
             -DENABLE_HDF5=ON \
             -DENABLE_BLASLAPACK=OFF \
