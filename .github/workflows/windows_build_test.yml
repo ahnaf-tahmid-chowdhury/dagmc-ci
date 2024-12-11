@@ -61,7 +61,7 @@ jobs:
           cd build
           cmake .. \
             -G "Ninja" \
-            -DCMAKE_INSTALL_PREFIX=/usr \
+            -DCMAKE_INSTALL_PREFIX=/c/hdf5 \
             -DBUILD_SHARED_LIBS=OFF \
             -DHDF5_ENABLE_PARALLEL=${{ matrix.mpi && 'ON' || 'OFF' }} \
             -DHDF5_BUILD_CPP_LIB=OFF \
@@ -83,6 +83,7 @@ jobs:
             -DBUILD_SHARED_LIBS=ON \
             -DENABLE_EIGEN3=ON \
             -DENABLE_HDF5=ON \
+            -DHDF5_ROOT=/c/hdf5 \
             -DENABLE_MPI=${{ matrix.mpi && 'ON' || 'OFF' }} \
             -DENABLE_BLASLAPACK=OFF \
             -DENABLE_FORTRAN=OFF \
@@ -102,6 +103,7 @@ jobs:
           cmake .. \
             -G "Unix Makefiles" \
             -DCMAKE_INSTALL_PREFIX=/c/dagmc \
+            -DCMAKE_PREFIX_PATH=/c/moab;/c/hdf5 \
             -DBUILD_SHARED_LIBS=ON
           cmake --build . --config Release
           cmake --install . --config Release
