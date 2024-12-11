@@ -17,9 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { icon: '🟦', sys: mingw64, compiler: 'gcc' }
-          - { icon: '🟨', sys: ucrt64, compiler: 'gcc' }
-          - { icon: '🟧', sys: clang64, compiler: 'clang' }
+          - { icon: "🟦", sys: mingw64, compiler: "gcc" }
+          - { icon: "🟨", sys: ucrt64, compiler: "gcc" }
+          - { icon: "🟧", sys: clang64, compiler: "clang" }
     name: ${{ matrix.icon }} ${{ matrix.sys }} - ${{ matrix.compiler }}
     defaults:
       run:
@@ -72,8 +72,8 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           git clone https://github.com/ahnaf-tahmid-chowdhury/DAGMC.git -b fix-windows
+          cd DAGMC
           git submodule update --init
-          cd dagmc
           mkdir build
           cd build
           cmake .. \
