@@ -44,7 +44,7 @@ jobs:
             libcurl-devel
             libzstd-devel
           pacboy: >-
-            ${matrix.compiler}:p
+            ${{ matrix.compiler }}:p
             cmake:p
             eigen3:p
 
@@ -118,8 +118,3 @@ jobs:
           make_watertight_cylinder_tests.exe
           make_watertight_no_curve_sphere_tests.exe
           make_watertight_sphere_n_box_test.exe
-
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 150
