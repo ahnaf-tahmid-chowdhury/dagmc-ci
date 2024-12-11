@@ -16,14 +16,14 @@ jobs:
     strategy:
       matrix:
         include:
-          - { icon: '⬛', sys: MINGW32, compiler: 'gcc' }
-          - { icon: '⬛', sys: MINGW32, compiler: 'msmpi' }
-          - { icon: '🟦', sys: MINGW64, compiler: 'gcc' }
-          - { icon: '🟦', sys: MINGW64, compiler: 'msmpi' }
-          - { icon: '🟨', sys: UCART64, compiler: 'gcc' }
-          - { icon: '🟨', sys: UCART64, compiler: 'msmpi' }
-          - { icon: '🟧', sys: CLANG64, compiler: 'gcc' }
-          - { icon: '🟧', sys: CLANG64, compiler: 'msmpi' }
+          - { icon: '⬛', sys: mingw32, compiler: 'gcc' }
+          - { icon: '⬛', sys: mingw32, compiler: 'msmpi' }
+          - { icon: '🟦', sys: mingw64, compiler: 'gcc' }
+          - { icon: '🟦', sys: mingw64, compiler: 'msmpi' }
+          - { icon: '🟨', sys: ucart64, compiler: 'gcc' }
+          - { icon: '🟨', sys: ucart64, compiler: 'msmpi' }
+          - { icon: '🟧', sys: clang64, compiler: 'gcc' }
+          - { icon: '🟧', sys: clang64, compiler: 'msmpi' }
     name: ${{ matrix.icon }} ${{ matrix.sys }} - ${{ matrix.compiler }}
     defaults:
       run:
