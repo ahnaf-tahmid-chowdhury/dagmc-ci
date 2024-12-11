@@ -16,8 +16,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - { icon: '⬛', sys: MINGW32, compiler: 'gcc' }
-          - { icon: '⬛', sys: MINGW32, compiler: 'msmpi' }
           - { icon: '🟦', sys: MINGW64, compiler: 'gcc' }
           - { icon: '🟦', sys: MINGW64, compiler: 'msmpi' }
           - { icon: '🟨', sys: UCRT64, compiler: 'gcc' }
