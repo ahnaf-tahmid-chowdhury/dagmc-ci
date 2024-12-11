@@ -100,7 +100,7 @@ jobs:
           mkdir build
           cd build
           cmake .. \
-            -G "Ninja" \
+            -G "Unix Makefiles" \
             -DCMAKE_INSTALL_PREFIX=/c/dagmc \
             -DBUILD_SHARED_LIBS=ON
           cmake --build . --config Release
