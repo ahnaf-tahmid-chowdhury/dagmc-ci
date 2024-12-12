@@ -55,7 +55,7 @@ jobs:
       - name: Build and Install HDF5
         run: |
           cd $GITHUB_WORKSPACE
-          git clone --depth 1 https://github.com/HDFGroup/hdf5.git -b hdf5_1_14_3
+          git clone --depth 1 https://github.com/HDFGroup/hdf5.git -b develop
           cd hdf5
           mkdir build
           cd build
