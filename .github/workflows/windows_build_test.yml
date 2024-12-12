@@ -84,8 +84,7 @@ jobs:
             -DENABLE_EIGEN3=ON \
             -DENABLE_HDF5=ON \
             -DHDF5_ROOT=/c/hdf5 \
-            -DHDF5_INCLUDE_DIR=/c/hdf5/include \
-            -DHDF5_LIBRARY_DIR=/c/hdf5/lib \
+            -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE=ON \
             -DENABLE_MPI=${{ matrix.mpi && 'ON' || 'OFF' }} \
             -DENABLE_BLASLAPACK=OFF \
             -DENABLE_FORTRAN=OFF \
