@@ -101,7 +101,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           git clone https://github.com/ahnaf-tahmid-chowdhury/DAGMC.git -b fix-windows
           cd DAGMC
-          git submodule update --init
+          git submodule update --init --recursive
           mkdir build
           cd build
           cmake .. \
