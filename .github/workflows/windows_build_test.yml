@@ -105,7 +105,9 @@ jobs:
           cmake .. \
             -G "Ninja" \
             -DCMAKE_INSTALL_PREFIX=/c/dagmc \
-            -DCMAKE_PREFIX_PATH=/c/moab;/c/hdf5 \
+            -DHDF5_ROOT=/c/hdf5 \
+            -DHDF5_NO_FIND_PACKAGE_CONFIG_FILE=ON \
+            -DMOAB_ROOT=/c/moab \
             -DBUILD_SHARED_LIBS=ON
           cmake --build . --config Release
           cmake --install . --config Release
